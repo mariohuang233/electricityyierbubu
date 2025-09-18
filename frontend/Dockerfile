@@ -1,6 +1,6 @@
 # 多阶段构建
 # 第一阶段：构建应用
-FROM node:18-alpine as builder
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
