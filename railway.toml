@@ -1,9 +1,3 @@
-[build]
-builder = "nixpacks"
-
-[deploy]
-startCommand = "echo 'This is a monorepo with multiple services'"
-
 # Backend service
 [[services]]
 name = "backend"
