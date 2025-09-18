@@ -9,5 +9,20 @@
     "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
-  }
+  },
+  "services": [
+    {
+      "name": "backend",
+      "buildCommand": "cd backend && npm ci --only=production",
+      "startCommand": "cd backend && npm start",
+      "healthcheckPath": "/api/health",
+      "port": 3001
+    },
+    {
+      "name": "frontend",
+      "buildCommand": "cd frontend && npm ci && npm run build",
+      "outputDir": "frontend/build",
+      "environment": "static"
+    }
+  ]
 }

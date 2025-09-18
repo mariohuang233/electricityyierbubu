@@ -128,9 +128,25 @@ npm start
 
 访问 http://localhost:3000 查看应用
 
-## 🚀 一键部署
+## 🚀 全栈一键部署
 
-### 使用部署脚本
+### 使用全栈部署脚本
+
+```bash
+# 给脚本执行权限
+chmod +x deploy-stack.sh
+
+# Docker 全栈部署 (推荐)
+./deploy-stack.sh docker
+
+# Railway 全栈部署
+./deploy-stack.sh railway
+
+# Zeabur 全栈部署
+./deploy-stack.sh zeabur
+```
+
+### 使用传统部署脚本
 
 ```bash
 # 给脚本执行权限

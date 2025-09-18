@@ -1,0 +1,128 @@
+{
+  "name": "electricity-monitor-fullstack",
+  "description": "家庭用电监控与可视化系统 - 全栈部署配置",
+  "version": "1.0.0",
+  "deployment": {
+    "railway": {
+      "enabled": true,
+      "config": "railway.json",
+      "buildpack": "nixpacks",
+      "services": [
+        {
+          "name": "backend",
+          "type": "web",
+          "buildCommand": "cd backend && npm ci --only=production",
+          "startCommand": "cd backend && npm start",
+          "port": 3001,
+          "healthcheck": "/api/health"
+        },
+        {
+          "name": "frontend",
+          "type": "static",
+          "buildCommand": "cd frontend && npm ci && npm run build",
+          "outputDir": "frontend/build"
+        }
+      ]
+    },
+    "zeabur": {
+      "enabled": true,
+      "config": "zeabur.json",
+      "services": [
+        {
+          "name": "backend",
+          "type": "node",
+          "buildCommand": "cd backend && npm ci --only=production",
+          "startCommand": "cd backend && npm start",
+          "port": 3001,
+          "healthcheck": {
+            "path": "/api/health",
+            "port": 3001
+          }
+        },
+        {
+          "name": "frontend",
+          "type": "static",
+          "buildCommand": "cd frontend && npm ci && npm run build",
+          "outputDir": "frontend/build"
+        }
+      ]
+    },
+    "docker": {
+      "enabled": true,
+      "config": "docker-compose.yml",
+      "services": [
+        {
+          "name": "backend",
+          "buildContext": "./backend",
+          "port": "3001:3001",
+          "healthcheck": {
+            "test": ["CMD", "node", "-e", "require('http').get('http://localhost:3001/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"],
+            "interval": "30s",
+            "timeout": "10s",
+            "retries": 3
+          }
+        },
+        {
+          "name": "frontend",
+          "buildContext": "./frontend",
+          "port": "80:80",
+          "dependsOn": ["backend"],
+          "healthcheck": {
+            "test": ["CMD", "curl", "-f", "http://localhost:80"],
+            "interval": "30s",
+            "timeout": "10s",
+            "retries": 3
+          }
+        }
+      ]
+    }
+  },
+  "environment": {
+    "required": [
+      "MONGO_URI",
+      "PORT",
+      "NODE_ENV"
+    ],
+    "optional": [
+      "CRON_EXPRESSION",
+      "METER_URL",
+      "ELECTRICITY_RATE",
+      "LOG_LEVEL",
+      "REACT_APP_API_URL"
+    ],
+    "defaults": {
+      "PORT": "3001",
+      "NODE_ENV": "production",
+      "CRON_EXPRESSION": "*/10 * * * *",
+      "ELECTRICITY_RATE": "1.0",
+      "LOG_LEVEL": "info"
+    }
+  },
+  "scripts": {
+    "deploy:docker": "./deploy-full.sh docker",
+    "deploy:railway": "./deploy-full.sh railway",
+    "deploy:zeabur": "./deploy-full.sh zeabur",
+    "build": "cd frontend && npm run build",
+    "install": "cd backend && npm ci --only=production && cd ../frontend && npm ci",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev"
+  },
+  "healthchecks": {
+    "backend": "/api/health",
+    "frontend": "/",
+    "timeout": 10,
+    "interval": 30,
+    "retries": 3
+  },
+  "monitoring": {
+    "logs": {
+      "backend": "./logs/combined.log",
+      "frontend": "nginx access logs"
+    },
+    "metrics": {
+      "cpu": "node process",
+      "memory": "heap usage",
+      "requests": "api calls per minute"
+    }
+  }
+}
