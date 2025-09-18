@@ -55,14 +55,21 @@ app.use((error, req, res, next) => {
 // MongoDB连接
 async function connectDB() {
   try {
+    if (!process.env.MONGO_URI) {
+      logger.warn('MONGO_URI环境变量未设置，跳过数据库连接');
+      return false;
+    }
+    
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     logger.info('MongoDB连接成功');
+    return true;
   } catch (error) {
     logger.error('MongoDB连接失败:', error);
-    process.exit(1);
+    logger.warn('应用将在没有数据库连接的情况下启动');
+    return false;
   }
 }
 
@@ -88,24 +95,28 @@ function setupCronJob() {
 // 启动服务器
 async function startServer() {
   try {
-    await connectDB();
+    const dbConnected = await connectDB();
     
     app.listen(PORT, () => {
       logger.info(`服务器运行在端口 ${PORT}`);
       console.log(`🚀 服务器启动成功: http://localhost:${PORT}`);
       
-      // 启动定时任务
-      setupCronJob();
-      
-      // 立即执行一次爬取（可选）
-      setTimeout(async () => {
-        try {
-          logger.info('执行初始数据爬取');
-          await meterCrawler.crawlMeterData();
-        } catch (error) {
-          logger.error('初始数据爬取失败:', error);
-        }
-      }, 5000);
+      if (dbConnected) {
+        // 只有在数据库连接成功时才启动定时任务和爬虫
+        setupCronJob();
+        
+        // 立即执行一次爬取（可选）
+        setTimeout(async () => {
+          try {
+            logger.info('执行初始数据爬取');
+            await meterCrawler.crawlMeterData();
+          } catch (error) {
+            logger.error('初始数据爬取失败:', error);
+          }
+        }, 5000);
+      } else {
+        logger.warn('数据库未连接，跳过定时任务和爬虫初始化');
+      }
     });
   } catch (error) {
     logger.error('服务器启动失败:', error);

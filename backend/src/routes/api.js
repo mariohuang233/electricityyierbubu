@@ -64,7 +64,16 @@ router.get('/trend/monthly', async (req, res) => {
 
 // 健康检查
 router.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  // 简单的健康检查，不依赖数据库连接
+  const health = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    version: '1.0.0'
+  };
+  
+  res.status(200).json(health);
 });
 
 module.exports = router;
