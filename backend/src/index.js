@@ -26,6 +26,11 @@ app.get('/', (req, res) => {
   });
 });
 
+// 简单健康检查（备用）
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // 404处理
 app.use('*', (req, res) => {
   logger.warn(`404 - 未找到路径: ${req.method} ${req.originalUrl}`);
