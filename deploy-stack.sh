@@ -125,11 +125,28 @@ deploy_railway() {
         return 1
     fi
     
+    print_warning "Railway 主要支持单服务部署"
+    print_info "建议使用后端服务部署方案"
+    print_step "使用简化配置部署后端..."
+    
+    # 使用简化配置
+    if [ -f railway-simple.json ]; then
+        cp railway-simple.json railway.json
+        print_info "已切换到简化 Railway 配置"
+    fi
+    
+    if [ -f nixpacks-simple.toml ]; then
+        cp nixpacks-simple.toml nixpacks.toml
+        print_info "已切换到简化 Nixpacks 配置"
+    fi
+    
     print_step "部署到 Railway..."
     railway up
     
-    print_success "Railway 部署完成"
+    print_success "Railway 后端部署完成"
     print_info "获取域名: railway domain"
+    print_warning "前端需要单独部署到其他平台"
+    print_info "查看详细说明: RAILWAY_DEPLOY.md"
 }
 
 # Zeabur 部署
