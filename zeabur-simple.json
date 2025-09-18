@@ -1,12 +1,12 @@
 {
   "name": "electricity-monitor",
-  "description": "家庭用电监控与可视化系统 - 全栈应用",
+  "description": "家庭用电监控与可视化系统 - 简化配置",
   "version": "1.0.0",
   "services": [
     {
       "name": "backend",
       "description": "Node.js 后端 API 服务",
-      "buildCommand": "cd backend && npm ci --only=production",
+      "buildCommand": "cd backend && npm install && npm start",
       "startCommand": "cd backend && npm start",
       "environment": "node",
       "port": 3001,
@@ -21,10 +21,6 @@
         "NODE_ENV": "production",
         "PORT": "3001",
         "LOG_LEVEL": "info"
-      },
-      "resources": {
-        "cpu": "0.5",
-        "memory": "512Mi"
       }
     },
     {
@@ -35,24 +31,7 @@
       "environment": "static",
       "env": {
         "REACT_APP_API_URL": "https://backend-{service-id}.zeabur.app"
-      },
-      "resources": {
-        "cpu": "0.25",
-        "memory": "256Mi"
       }
-    }
-  ],
-  "networks": [
-    {
-      "name": "electricity-network",
-      "type": "internal"
-    }
-  ],
-  "volumes": [
-    {
-      "name": "logs",
-      "type": "persistent",
-      "size": "1Gi"
     }
   ]
 }

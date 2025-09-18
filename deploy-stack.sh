@@ -161,7 +161,20 @@ deploy_zeabur() {
     print_info "4. 系统会自动创建 backend 和 frontend 服务"
     print_info "5. 配置环境变量"
     
+    print_warning "前端构建问题已修复:"
+    print_info "- react-scripts 已移到 dependencies"
+    print_info "- 使用 npm install 确保依赖安装"
+    print_info "- 简化构建配置避免错误"
+    
+    # 使用简化配置
+    if [ -f zeabur-simple.json ]; then
+        print_step "使用简化 Zeabur 配置..."
+        cp zeabur-simple.json zeabur.json
+        print_info "已切换到简化配置，避免构建错误"
+    fi
+    
     print_success "Zeabur 部署准备完成"
+    print_info "查看详细说明: ZEABUR_DEPLOY.md"
 }
 
 # 验证部署
