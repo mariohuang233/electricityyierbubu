@@ -6,7 +6,7 @@
     {
       "name": "backend",
       "description": "Node.js 后端 API 服务",
-      "buildCommand": "cd backend && npm install --only=production",
+      "buildCommand": "cd backend && npm ci --only=production",
       "startCommand": "cd backend && npm start",
       "environment": "node",
       "port": 3001,
