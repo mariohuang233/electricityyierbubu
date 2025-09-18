@@ -1,14 +1,14 @@
 {
-  "name": "electricity-monitor",
-  "description": "家庭用电监控与可视化系统 - 简化配置",
+  "name": "electricity-monitor-docker",
+  "description": "家庭用电监控与可视化系统 - Docker 部署",
   "version": "1.0.0",
   "services": [
     {
       "name": "backend",
       "description": "Node.js 后端 API 服务",
-      "buildCommand": "cd backend && npm install && npm start",
-      "startCommand": "cd backend && npm start",
-      "environment": "node",
+      "buildCommand": "docker build -t electricity-backend ./backend",
+      "startCommand": "docker run -p 3001:3001 electricity-backend",
+      "environment": "docker",
       "port": 3001,
       "healthCheck": {
         "path": "/api/health",
@@ -26,9 +26,10 @@
     {
       "name": "frontend",
       "description": "React 前端静态应用",
-      "buildCommand": "cd frontend && npm install --production=false && npm run build",
-      "outputDir": "frontend/build",
-      "environment": "static",
+      "buildCommand": "docker build -t electricity-frontend ./frontend",
+      "startCommand": "docker run -p 80:80 electricity-frontend",
+      "environment": "docker",
+      "port": 80,
       "env": {
         "REACT_APP_API_URL": "https://backend-{service-id}.zeabur.app"
       }

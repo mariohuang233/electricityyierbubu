@@ -1,0 +1,31 @@
+{
+  "name": "electricity-monitor-backend",
+  "description": "家庭用电监控系统 - 后端服务",
+  "version": "1.0.0",
+  "services": [
+    {
+      "name": "backend",
+      "description": "Node.js 后端 API 服务",
+      "buildCommand": "cd backend && npm install --only=production",
+      "startCommand": "cd backend && npm start",
+      "environment": "node",
+      "port": 3001,
+      "healthCheck": {
+        "path": "/api/health",
+        "port": 3001,
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      },
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3001",
+        "LOG_LEVEL": "info"
+      },
+      "resources": {
+        "cpu": "0.5",
+        "memory": "512Mi"
+      }
+    }
+  ]
+}

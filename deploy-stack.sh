@@ -213,6 +213,28 @@ show_info() {
     print_info "  查看状态: docker-compose ps"
 }
 
+# 混合部署
+deploy_hybrid() {
+    print_title "混合部署方案"
+    
+    print_info "推荐方案：后端 Zeabur + 前端 Vercel"
+    print_step "1. 后端部署到 Zeabur..."
+    
+    # 使用后端专用配置
+    if [ -f zeabur-backend-only.json ]; then
+        cp zeabur-backend-only.json zeabur.json
+        print_info "已切换到后端专用 Zeabur 配置"
+    fi
+    
+    print_step "2. 前端部署到 Vercel..."
+    print_info "访问 vercel.com 导入项目"
+    print_info "设置根目录为 frontend/"
+    print_info "配置环境变量 REACT_APP_API_URL"
+    
+    print_success "混合部署配置完成"
+    print_info "查看详细说明: HYBRID_DEPLOY.md"
+}
+
 # 显示帮助
 show_help() {
     echo "家庭用电监控系统 - 全栈一键部署"
@@ -220,15 +242,16 @@ show_help() {
     echo "用法: $0 [选项]"
     echo ""
     echo "选项:"
-    echo "  docker      Docker 全栈部署 (推荐)"
+    echo "  docker      Docker 全栈部署 (推荐本地)"
     echo "  railway     Railway 全栈部署"
     echo "  zeabur      Zeabur 全栈部署"
+    echo "  hybrid      混合部署 (推荐云平台)"
     echo "  verify      验证部署状态"
     echo "  help        显示帮助信息"
     echo ""
     echo "示例:"
     echo "  $0 docker    # Docker 全栈部署"
-    echo "  $0 railway   # Railway 全栈部署"
+    echo "  $0 hybrid    # 混合部署 (推荐)"
     echo "  $0 zeabur    # Zeabur 全栈部署"
 }
 
@@ -248,6 +271,10 @@ main() {
         zeabur)
             check_environment
             deploy_zeabur
+            ;;
+        hybrid)
+            check_environment
+            deploy_hybrid
             ;;
         verify)
             verify_deployment
