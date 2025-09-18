@@ -230,6 +230,9 @@ deploy_hybrid() {
     print_info "访问 vercel.com 导入项目"
     print_info "设置根目录为 frontend/"
     print_info "配置环境变量 REACT_APP_API_URL"
+    print_warning "重要：在 Vercel 控制台直接配置环境变量"
+    print_info "不要使用 @ 符号引用不存在的 Secret"
+    print_info "环境变量值：https://backend-xxx.zeabur.app"
     
     print_success "混合部署配置完成"
     print_info "查看详细说明: HYBRID_DEPLOY.md"
