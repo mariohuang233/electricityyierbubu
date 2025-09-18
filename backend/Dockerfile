@@ -5,13 +5,13 @@ FROM node:18-alpine
 WORKDIR /app
 
 # 复制package.json和package-lock.json（如果存在）
-COPY package*.json ./
+COPY backend/package*.json ./
 
 # 安装依赖
 RUN npm ci --only=production
 
 # 复制应用源代码
-COPY src/ ./src/
+COPY backend/src/ ./src/
 
 # 创建日志目录
 RUN mkdir -p logs
