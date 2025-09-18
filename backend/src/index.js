@@ -8,7 +8,7 @@ const MeterCrawler = require('./crawler/meterCrawler');
 const logger = require('./utils/logger');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // 中间件
 app.use(cors());

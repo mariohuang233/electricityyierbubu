@@ -57,8 +57,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone <your-repo-url>
-cd elec
+git clone https://github.com/mariohuang233/electricityyierbubu.git
+cd electricityyierbubu
 ```
 
 ### 2. 环境配置
@@ -66,7 +66,7 @@ cd elec
 复制环境变量文件并配置：
 
 ```bash
-cp .env.example .env
+cp env.example .env
 ```
 
 编辑 `.env` 文件：
@@ -128,13 +128,31 @@ npm start
 
 访问 http://localhost:3000 查看应用
 
+## 🚀 一键部署
+
+### 使用部署脚本
+
+```bash
+# 给脚本执行权限
+chmod +x deploy.sh
+
+# Docker 部署
+./deploy.sh docker
+
+# Railway 部署准备
+./deploy.sh railway
+
+# Zeabur 部署准备
+./deploy.sh zeabur
+```
+
 ## 🐳 Docker 部署
 
 ### 使用 Docker Compose
 
 ```bash
 # 创建 .env 文件并配置环境变量
-cp .env.example .env
+cp env.example .env
 
 # 启动服务
 docker-compose up -d
@@ -164,15 +182,48 @@ docker run -d --name frontend -p 80:80 electricity-frontend
 
 ### Railway 部署
 
-1. 连接 GitHub 仓库到 Railway
-2. 设置环境变量
-3. 部署会自动开始
+1. 在 [Railway](https://railway.app) 注册账号
+2. 连接 GitHub 仓库 `mariohuang233/electricityyierbubu`
+3. 设置环境变量（参考 `env.example`）
+4. 部署会自动开始
+
+**环境变量配置：**
+```
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+PORT=3001
+CRON_EXPRESSION=*/10 * * * *
+METER_URL=http://www.wap.cnyiot.com/nat/pay.aspx?mid=18100071580
+ELECTRICITY_RATE=1.0
+LOG_LEVEL=info
+NODE_ENV=production
+```
 
 ### Zeabur 部署
 
-1. 导入 GitHub 仓库到 Zeabur
-2. 配置环境变量
-3. 部署服务
+1. 在 [Zeabur](https://zeabur.com) 注册账号
+2. 导入 GitHub 仓库 `mariohuang233/electricityyierbubu`
+3. 系统会自动识别 `zeabur.json` 配置
+4. 为 backend 服务配置环境变量
+
+**环境变量配置：**
+```
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+PORT=3001
+CRON_EXPRESSION=*/10 * * * *
+METER_URL=http://www.wap.cnyiot.com/nat/pay.aspx?mid=18100071580
+ELECTRICITY_RATE=1.0
+LOG_LEVEL=info
+NODE_ENV=production
+```
+
+**前端服务环境变量：**
+```
+REACT_APP_API_URL=https://backend-{service-id}.zeabur.app
+```
+
+### 详细部署指南
+
+查看 [DEPLOYMENT.md](./DEPLOYMENT.md) 获取详细的部署说明和故障排除指南。
 
 ## 📊 API 接口
 

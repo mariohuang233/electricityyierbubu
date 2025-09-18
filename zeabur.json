@@ -3,20 +3,27 @@
   "services": [
     {
       "name": "backend",
-      "buildCommand": "cd backend && npm install",
+      "buildCommand": "cd backend && npm ci --only=production",
       "startCommand": "cd backend && npm start",
       "environment": "node",
       "port": 3001,
       "healthCheck": {
         "path": "/api/health",
         "port": 3001
+      },
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3001"
       }
     },
     {
       "name": "frontend",
-      "buildCommand": "cd frontend && npm install && npm run build",
+      "buildCommand": "cd frontend && npm ci && npm run build",
       "outputDir": "frontend/build",
-      "environment": "static"
+      "environment": "static",
+      "env": {
+        "REACT_APP_API_URL": "https://backend-{service-id}.zeabur.app"
+      }
     }
   ]
 }
