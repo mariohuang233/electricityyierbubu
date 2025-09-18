@@ -1,0 +1,211 @@
+/* 移动端响应式样式 */
+
+/* 基础响应式断点 */
+@media (max-width: 576px) {
+  /* 小屏幕手机 */
+  .ant-layout-content {
+    padding: 8px !important;
+  }
+  
+  .ant-card {
+    margin-bottom: 12px !important;
+  }
+  
+  .ant-card-head-title {
+    font-size: 16px !important;
+    padding: 8px 0 !important;
+  }
+  
+  .ant-statistic-title {
+    font-size: 12px !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .ant-statistic-content {
+    font-size: 18px !important;
+  }
+  
+  .ant-btn {
+    height: 32px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+  
+  .ant-space-item {
+    margin-bottom: 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 平板和大屏手机 */
+  .ant-row {
+    margin: 0 -4px !important;
+  }
+  
+  .ant-col {
+    padding: 0 4px !important;
+  }
+  
+  .ant-picker {
+    width: 100% !important;
+  }
+  
+  .ant-space {
+    width: 100% !important;
+  }
+  
+  .ant-space-vertical {
+    width: 100% !important;
+  }
+  
+  .ant-space-vertical > .ant-space-item {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 769px) {
+  /* 桌面端 */
+  .ant-space-vertical {
+    flex-direction: row !important;
+  }
+  
+  .ant-space-vertical > .ant-space-item {
+    width: auto !important;
+  }
+}
+
+/* 图表响应式优化 */
+@media (max-width: 576px) {
+  .chart-container {
+    height: 250px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 300px !important;
+  }
+}
+
+/* 统计卡片响应式优化 */
+.responsive-statistic {
+  text-align: center;
+  padding: 8px;
+}
+
+@media (max-width: 576px) {
+  .responsive-statistic {
+    padding: 4px;
+  }
+}
+
+/* 标题响应式 */
+.responsive-title {
+  font-size: clamp(18px, 4vw, 24px);
+  line-height: 1.2;
+  margin: 0;
+  color: #1890ff;
+}
+
+/* 按钮组响应式 */
+.responsive-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .responsive-button-group {
+    flex-direction: row;
+    width: auto;
+  }
+}
+
+/* 日期选择器响应式 */
+.responsive-date-picker {
+  width: 100%;
+  min-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .responsive-date-picker {
+    width: auto;
+  }
+}
+
+/* 导出按钮响应式 */
+.responsive-export-button {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .responsive-export-button {
+    width: auto;
+  }
+}
+
+/* 卡片阴影和圆角 */
+.responsive-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 576px) {
+  .responsive-card {
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+}
+
+/* 页面容器响应式 */
+.responsive-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (max-width: 576px) {
+  .responsive-container {
+    padding: 0 8px;
+  }
+}
+
+/* 头部区域响应式 */
+.responsive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 576px) {
+  .responsive-header {
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+}
+
+/* 加载状态优化 */
+.ant-spin-container {
+  min-height: 200px;
+}
+
+/* 触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  .ant-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .ant-picker {
+    min-height: 44px;
+  }
+  
+  .ant-card-head {
+    min-height: 44px;
+  }
+}

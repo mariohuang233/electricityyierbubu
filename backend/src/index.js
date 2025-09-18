@@ -1,0 +1,147 @@
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const cron = require('node-cron');
+const apiRoutes = require('./routes/api');
+const MeterCrawler = require('./crawler/meterCrawler');
+const logger = require('./utils/logger');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// 中间件
+app.use(cors());
+app.use(express.json());
+
+// 路由
+app.use('/api', apiRoutes);
+
+// 根路径
+app.get('/', (req, res) => {
+  res.json({ 
+    message: '家庭用电监控系统API',
+    version: '1.0.0',
+    status: 'running'
+  });
+});
+
+// 404处理
+app.use('*', (req, res) => {
+  logger.warn(`404 - 未找到路径: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    error: '接口不存在',
+    path: req.originalUrl,
+    method: req.method
+  });
+});
+
+// 全局错误处理中间件
+app.use((error, req, res, next) => {
+  logger.error('未捕获的错误:', {
+    error: error.message,
+    stack: error.stack,
+    url: req.url,
+    method: req.method,
+    ip: req.ip
+  });
+  
+  res.status(500).json({
+    error: '服务器内部错误',
+    message: process.env.NODE_ENV === 'development' ? error.message : '请稍后重试'
+  });
+});
+
+// MongoDB连接
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    logger.info('MongoDB连接成功');
+  } catch (error) {
+    logger.error('MongoDB连接失败:', error);
+    process.exit(1);
+  }
+}
+
+// 初始化爬虫
+const meterCrawler = new MeterCrawler();
+
+// 设置定时任务
+function setupCronJob() {
+  const cronExpression = process.env.CRON_EXPRESSION || '*/10 * * * *';
+  
+  cron.schedule(cronExpression, async () => {
+    logger.info('开始执行定时爬取任务');
+    try {
+      await meterCrawler.crawlMeterData();
+    } catch (error) {
+      logger.error('定时爬取任务失败:', error);
+    }
+  });
+  
+  logger.info(`定时任务已设置: ${cronExpression}`);
+}
+
+// 启动服务器
+async function startServer() {
+  try {
+    await connectDB();
+    
+    app.listen(PORT, () => {
+      logger.info(`服务器运行在端口 ${PORT}`);
+      console.log(`🚀 服务器启动成功: http://localhost:${PORT}`);
+      
+      // 启动定时任务
+      setupCronJob();
+      
+      // 立即执行一次爬取（可选）
+      setTimeout(async () => {
+        try {
+          logger.info('执行初始数据爬取');
+          await meterCrawler.crawlMeterData();
+        } catch (error) {
+          logger.error('初始数据爬取失败:', error);
+        }
+      }, 5000);
+    });
+  } catch (error) {
+    logger.error('服务器启动失败:', error);
+    process.exit(1);
+  }
+}
+
+// 未捕获异常处理
+process.on('uncaughtException', (error) => {
+  logger.error('未捕获的异常:', error);
+  console.error('未捕获的异常:', error);
+  process.exit(1);
+});
+
+// 未处理的Promise拒绝
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('未处理的Promise拒绝:', { reason, promise });
+  console.error('未处理的Promise拒绝:', reason);
+  process.exit(1);
+});
+
+// 优雅关闭
+process.on('SIGTERM', () => {
+  logger.info('收到SIGTERM信号，正在关闭服务器...');
+  mongoose.connection.close(() => {
+    logger.info('MongoDB连接已关闭');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  logger.info('收到SIGINT信号，正在关闭服务器...');
+  mongoose.connection.close(() => {
+    logger.info('MongoDB连接已关闭');
+    process.exit(0);
+  });
+});
+
+startServer();

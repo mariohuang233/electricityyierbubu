@@ -1,0 +1,270 @@
+/* 导入肌理质感和微交互效果 */
+@import './texture-effects.css';
+@import './micro-interactions.css';
+
+/* Airbnb风格主题色彩系统 */
+:root {
+  /* 主色调 - 大地色系 */
+  --primary-wood: #8B4513;           /* 原木棕 */
+  --primary-cream: #FFF8DC;          /* 奶油白 */
+  --primary-terracotta: #CD853F;     /* 浅陶土色 */
+  
+  /* 辅助色调 */
+  --secondary-sage: #9CAF88;         /* 薄荷绿 */
+  --secondary-warm-orange: #D2691E;  /* 暖橘色 */
+  --secondary-soft-beige: #F5F5DC;   /* 柔和米色 */
+  
+  /* 中性色调 */
+  --neutral-warm-white: #FEFEFE;     /* 温暖白 */
+  --neutral-light-gray: #F7F7F7;     /* 浅灰 */
+  --neutral-medium-gray: #E8E8E8;    /* 中灰 */
+  --neutral-dark-gray: #6B6B6B;      /* 深灰 */
+  --neutral-charcoal: #2F2F2F;       /* 炭灰 */
+  
+  /* 功能色调 */
+  --success-green: #7CB342;          /* 成功绿 */
+  --warning-amber: #FFB74D;          /* 警告琥珀 */
+  --error-coral: #E57373;            /* 错误珊瑚 */
+  --info-sky: #64B5F6;               /* 信息天蓝 */
+  
+  /* 渐变色 */
+  --gradient-warm: linear-gradient(135deg, var(--primary-cream) 0%, var(--secondary-soft-beige) 100%);
+  --gradient-earth: linear-gradient(135deg, var(--primary-terracotta) 0%, var(--primary-wood) 100%);
+  --gradient-sage: linear-gradient(135deg, var(--secondary-sage) 0%, var(--primary-cream) 100%);
+  
+  /* 阴影系统 */
+  --shadow-soft: 0 2px 12px rgba(139, 69, 19, 0.08);
+  --shadow-medium: 0 4px 20px rgba(139, 69, 19, 0.12);
+  --shadow-strong: 0 8px 32px rgba(139, 69, 19, 0.16);
+  --shadow-floating: 0 12px 48px rgba(139, 69, 19, 0.20);
+  
+  /* 圆角系统 */
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 16px;
+  --radius-xl: 24px;
+  
+  /* 间距系统 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  /* 字体系统 */
+  --font-family-primary: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --font-family-secondary: 'Poppins', 'Inter', sans-serif;
+  
+  /* 字体大小 */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+  
+  /* 字体权重 */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* 行高 */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  
+  /* 过渡动画 */
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.25s ease-out;
+  --transition-slow: 0.35s ease-out;
+  
+  /* 背景纹理 */
+  --texture-wood: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="wood" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="%23F5F5DC" opacity="0.1"/><path d="M0 10h20M0 20h20" stroke="%238B4513" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23wood)"/></svg>');
+  --texture-fabric: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><defs><pattern id="fabric" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="3" fill="%23FFF8DC" opacity="0.05"/><circle cx="1.5" cy="1.5" r="0.5" fill="%23CD853F" opacity="0.1"/></pattern></defs><rect width="60" height="60" fill="url(%23fabric)"/></svg>');
+}
+
+/* 全局基础样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  background: var(--gradient-warm);
+  color: var(--neutral-charcoal);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 应用容器 */
+.App {
+  min-height: 100vh;
+  background: var(--gradient-warm);
+}
+
+/* 卡片基础样式 */
+.airbnb-card {
+  background: var(--neutral-warm-white);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-soft);
+  border: none;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.airbnb-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--texture-fabric);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.airbnb-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* 统计卡片样式 */
+.airbnb-statistic {
+  text-align: center;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-medium);
+  background: var(--gradient-sage);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.airbnb-statistic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--texture-wood);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.airbnb-statistic:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-medium);
+}
+
+.airbnb-statistic-title {
+  font-size: var(--font-size-sm);
+  color: var(--neutral-dark-gray);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xs);
+  position: relative;
+  z-index: 1;
+}
+
+.airbnb-statistic-value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-wood);
+  line-height: var(--line-height-tight);
+  position: relative;
+  z-index: 1;
+}
+
+/* 图表容器样式 */
+.airbnb-chart-container {
+  background: var(--neutral-warm-white);
+  border-radius: var(--radius-large);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.airbnb-chart-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--texture-fabric);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* 按钮样式 */
+.airbnb-button {
+  background: var(--gradient-earth);
+  border: none;
+  border-radius: var(--radius-medium);
+  color: var(--neutral-warm-white);
+  font-weight: var(--font-weight-medium);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.airbnb-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+  opacity: 0.9;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  :root {
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-base: 15px;
+    --font-size-lg: 17px;
+    --font-size-xl: 19px;
+    --font-size-2xl: 22px;
+    --font-size-3xl: 28px;
+    
+    --spacing-xs: 3px;
+    --spacing-sm: 6px;
+    --spacing-md: 12px;
+    --spacing-lg: 18px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 36px;
+  }
+  
+  .airbnb-card {
+    margin: var(--spacing-sm);
+    border-radius: var(--radius-medium);
+  }
+  
+  .airbnb-statistic {
+    padding: var(--spacing-md);
+  }
+  
+  .airbnb-statistic-value {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .airbnb-card {
+    margin: var(--spacing-xs);
+    border-radius: var(--radius-small);
+  }
+  
+  .airbnb-statistic {
+    padding: var(--spacing-sm);
+  }
+  
+  .airbnb-statistic-value {
+    font-size: var(--font-size-lg);
+  }
+}

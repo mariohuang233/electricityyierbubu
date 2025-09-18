@@ -1,0 +1,22 @@
+{
+  "name": "electricity-monitor",
+  "services": [
+    {
+      "name": "backend",
+      "buildCommand": "cd backend && npm install",
+      "startCommand": "cd backend && npm start",
+      "environment": "node",
+      "port": 3001,
+      "healthCheck": {
+        "path": "/api/health",
+        "port": 3001
+      }
+    },
+    {
+      "name": "frontend",
+      "buildCommand": "cd frontend && npm install && npm run build",
+      "outputDir": "frontend/build",
+      "environment": "static"
+    }
+  ]
+}

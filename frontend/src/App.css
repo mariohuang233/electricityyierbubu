@@ -1,0 +1,117 @@
+/* 导入Airbnb主题 */
+@import './styles/airbnb-theme.css';
+
+/* 全局样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--gradient-warm);
+  color: var(--neutral-charcoal);
+  line-height: var(--line-height-normal);
+}
+
+.App {
+  min-height: 100vh;
+  background: var(--gradient-warm);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .ant-card {
+    margin: 8px !important;
+  }
+  
+  .ant-card-body {
+    padding: 16px !important;
+  }
+  
+  .ant-statistic-title {
+    font-size: 12px !important;
+  }
+  
+  .ant-statistic-content {
+    font-size: 18px !important;
+  }
+  
+  h1 {
+    font-size: 20px !important;
+    margin-bottom: 16px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ant-layout-content {
+    padding: 8px !important;
+  }
+  
+  .ant-card-head-title {
+    font-size: 14px !important;
+  }
+  
+  .ant-statistic-title {
+    font-size: 11px !important;
+  }
+  
+  .ant-statistic-content {
+    font-size: 16px !important;
+  }
+}
+
+/* 图表容器响应式 */
+.chart-container {
+  width: 100%;
+  height: 400px;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-container {
+    height: 250px;
+  }
+}
+
+/* 加载状态优化 */
+.ant-spin-container {
+  min-height: 200px;
+}
+
+/* 浮动按钮移动端适配 */
+@media (max-width: 768px) {
+  .ant-float-btn-group {
+    right: 16px !important;
+    bottom: 16px !important;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

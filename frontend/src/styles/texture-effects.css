@@ -1,0 +1,348 @@
+/* 肌理质感效果 */
+
+/* 木纹纹理背景 */
+.wood-texture {
+  background-image: 
+    linear-gradient(90deg, rgba(139, 69, 19, 0.03) 50%, transparent 50%),
+    linear-gradient(rgba(160, 82, 45, 0.02) 50%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(139, 69, 19, 0.01) 0%, transparent 70%);
+  background-size: 4px 4px, 8px 8px, 20px 20px;
+  background-position: 0 0, 2px 2px, 0 0;
+}
+
+/* 布艺纹理背景 */
+.fabric-texture {
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(139, 69, 19, 0.05) 1px, transparent 0),
+    linear-gradient(45deg, rgba(160, 82, 45, 0.02) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(139, 69, 19, 0.02) 25%, transparent 25%);
+  background-size: 8px 8px, 12px 12px, 12px 12px;
+  background-position: 0 0, 0 0, 6px 6px;
+}
+
+/* 纸质纹理背景 */
+.paper-texture {
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(139, 69, 19, 0.03) 1px, transparent 0),
+    radial-gradient(circle at 6px 6px, rgba(160, 82, 45, 0.02) 1px, transparent 0),
+    linear-gradient(0deg, rgba(139, 69, 19, 0.01) 50%, transparent 50%);
+  background-size: 8px 8px, 12px 12px, 2px 2px;
+}
+
+/* 亚麻纹理背景 */
+.linen-texture {
+  background-image: 
+    linear-gradient(90deg, rgba(139, 69, 19, 0.02) 1px, transparent 1px),
+    linear-gradient(rgba(160, 82, 45, 0.02) 1px, transparent 1px),
+    radial-gradient(ellipse at center, rgba(139, 69, 19, 0.01) 0%, transparent 50%);
+  background-size: 3px 3px, 3px 3px, 15px 15px;
+  background-position: 0 0, 1.5px 1.5px, 0 0;
+}
+
+/* 模块化卡片设计 */
+.modular-card {
+  position: relative;
+  background: var(--neutral-cream);
+  border-radius: var(--radius-large);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(139, 69, 19, 0.08);
+  overflow: hidden;
+}
+
+.modular-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-wood) 0%,
+    var(--accent-warm-orange) 50%,
+    var(--accent-mint-green) 100%
+  );
+  border-radius: var(--radius-large) var(--radius-large) 0 0;
+}
+
+/* 卡片变体 */
+.modular-card--primary {
+  background: linear-gradient(
+    135deg,
+    var(--neutral-cream) 0%,
+    rgba(245, 245, 220, 0.8) 100%
+  );
+}
+
+.modular-card--secondary {
+  background: linear-gradient(
+    135deg,
+    var(--neutral-light-clay) 0%,
+    rgba(210, 180, 140, 0.3) 100%
+  );
+}
+
+.modular-card--accent {
+  background: linear-gradient(
+    135deg,
+    rgba(152, 251, 152, 0.1) 0%,
+    rgba(255, 218, 185, 0.1) 100%
+  );
+}
+
+/* 卡片内容区域 */
+.modular-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.modular-card__title {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-wood);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.modular-card__subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  color: var(--neutral-dark-gray);
+  margin: var(--spacing-xs) 0 0 0;
+  opacity: 0.8;
+}
+
+.modular-card__content {
+  position: relative;
+  z-index: 1;
+}
+
+.modular-card__footer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 统计模块 */
+.stat-module {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-medium);
+  padding: var(--spacing-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.stat-module::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 69, 19, 0.02) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stat-module__icon {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-module__value {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-wood);
+  margin: 0;
+  line-height: var(--line-height-tight);
+  position: relative;
+  z-index: 2;
+}
+
+.stat-module__label {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  color: var(--neutral-dark-gray);
+  margin: var(--spacing-xs) 0 0 0;
+  opacity: 0.8;
+  position: relative;
+  z-index: 2;
+}
+
+/* 图表模块 */
+.chart-module {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-large);
+  padding: var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.chart-module::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(152, 251, 152, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 218, 185, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.chart-module__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 信息卡片 */
+.info-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(245, 245, 220, 0.7) 100%
+  );
+  border-radius: var(--radius-medium);
+  padding: var(--spacing-lg);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-wood) 0%,
+    var(--accent-warm-orange) 50%,
+    var(--accent-mint-green) 100%
+  );
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .modular-card {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .stat-module {
+    padding: var(--spacing-md);
+  }
+  
+  .chart-module {
+    padding: var(--spacing-lg);
+  }
+  
+  .modular-card__title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .stat-module__value {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .modular-card {
+    padding: var(--spacing-md);
+  }
+  
+  .stat-module {
+    padding: var(--spacing-sm);
+  }
+  
+  .chart-module {
+    padding: var(--spacing-md);
+  }
+  
+  /* 简化纹理效果以提升性能 */
+  .wood-texture,
+  .fabric-texture,
+  .paper-texture,
+  .linen-texture {
+    background-image: none;
+  }
+  
+  .stat-module::before {
+    animation: none;
+  }
+}
+
+/* 高对比度模式适配 */
+@media (prefers-contrast: high) {
+  .modular-card {
+    border: 2px solid var(--primary-wood);
+  }
+  
+  .stat-module {
+    border: 2px solid var(--neutral-dark-gray);
+  }
+  
+  .chart-module {
+    border: 2px solid var(--primary-wood);
+  }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .modular-card {
+    background: rgba(139, 69, 19, 0.1);
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+  
+  .stat-module {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+  
+  .chart-module {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+  
+  .info-card {
+    background: linear-gradient(
+      135deg,
+      rgba(139, 69, 19, 0.1) 0%,
+      rgba(160, 82, 45, 0.05) 100%
+    );
+  }
+}
