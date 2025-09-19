@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>API 测试页面</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                // 测试总览API
+                const response = await fetch('http://localhost:3001/api/overview');
+                const data = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <h3>✅ API 调用成功</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+                
+                // 检查关键字段
+                if (data.current_remaining_kwh !== undefined) {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result success">
+                            <h3>✅ 剩余电量字段存在</h3>
+                            <p>current_remaining_kwh: ${data.current_remaining_kwh}</p>
+                            <p>last_updated: ${data.last_updated}</p>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result error">
+                            <h3>❌ 剩余电量字段缺失</h3>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h3>❌ API 调用失败</h3>
+                        <p>错误: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 页面加载时自动测试
+        testAPI();
+    </script>
+</body>
+</html>

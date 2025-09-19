@@ -4,6 +4,11 @@ import { ThunderboltOutlined, CalendarOutlined, DollarOutlined } from '@ant-desi
 import '../styles/airbnb-theme.css';
 
 const OverviewCard = ({ data, loading }) => {
+  // 调试信息
+  console.log('OverviewCard 接收到的数据:', data);
+  console.log('current_remaining_kwh:', data?.current_remaining_kwh);
+  console.log('last_updated:', data?.last_updated);
+  
   return (
     <Card 
       className="airbnb-card modular-card modular-card--primary wood-texture fade-in-up apple-hover"
@@ -38,6 +43,66 @@ const OverviewCard = ({ data, loading }) => {
       loading={loading}
     >
       <Row gutter={[16, 24]}>
+        {/* 当前剩余电量 */}
+        <Col xs={24} sm={24} md={12} lg={12}>
+          <div className="airbnb-statistic stat-module ripple-effect fade-in-up" style={{
+            background: 'linear-gradient(135deg, rgba(0, 191, 255, 0.1) 0%, rgba(0, 191, 255, 0.05) 100%)',
+            padding: 'var(--spacing-lg)',
+            borderRadius: 'var(--radius-medium)',
+            textAlign: 'center',
+            border: '1px solid rgba(0, 191, 255, 0.2)',
+            transition: 'all var(--transition-normal)',
+            cursor: 'pointer',
+            position: 'relative',
+            overflow: 'hidden',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="stat-module__icon icon-rotate" style={{
+              fontSize: 'var(--font-size-2xl)',
+              marginBottom: 'var(--spacing-sm)'
+            }}>🔋</div>
+            <div className="stat-module__value count-up" style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: 'var(--font-weight-bold)',
+              color: 'var(--primary-wood)',
+              fontFamily: 'var(--font-family-primary)',
+              marginBottom: 'var(--spacing-xs)'
+            }}>
+              {(data?.current_remaining_kwh || 0).toFixed(2)} kWh
+              {/* 调试信息 */}
+              <div style={{ fontSize: '12px', color: 'red' }}>
+                DEBUG: {JSON.stringify(data?.current_remaining_kwh)}
+              </div>
+            </div>
+            <div className="stat-module__label" style={{
+              fontSize: 'var(--font-size-sm)',
+              color: 'var(--neutral-dark-gray)',
+              fontFamily: 'var(--font-family-primary)',
+              opacity: 0.8
+            }}>
+              当前剩余电量
+            </div>
+            {data?.last_updated && (
+              <div style={{
+                fontSize: 'var(--font-size-xs)',
+                color: 'var(--neutral-gray)',
+                marginTop: 'var(--spacing-xs)',
+                opacity: 0.7
+              }}>
+                最新检查: {new Date(data.last_updated).toLocaleString('zh-CN', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                })}
+              </div>
+            )}
+          </div>
+        </Col>
+        
+        {/* 今日用电 */}
         <Col xs={12} sm={12} md={6} lg={6}>
           <div className="airbnb-statistic stat-module ripple-effect fade-in-up" style={{
             background: 'linear-gradient(135deg, rgba(152, 251, 152, 0.1) 0%, rgba(152, 251, 152, 0.05) 100%)',

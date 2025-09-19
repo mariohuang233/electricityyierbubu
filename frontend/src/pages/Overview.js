@@ -33,6 +33,11 @@ const Overview = () => {
         electricityApi.getMonthlyData()
       ]);
       
+      // 调试信息
+      console.log('📊 总览数据:', overview);
+      console.log('🔋 剩余电量:', overview?.current_remaining_kwh);
+      console.log('⏰ 更新时间:', overview?.last_updated);
+      
       setOverviewData(overview);
       setTrend24h(trend);
       setTodayHourly(hourly);
