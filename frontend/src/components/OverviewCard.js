@@ -4,11 +4,6 @@ import { ThunderboltOutlined, CalendarOutlined, DollarOutlined } from '@ant-desi
 import '../styles/airbnb-theme.css';
 
 const OverviewCard = ({ data, loading }) => {
-  // 调试信息
-  console.log('OverviewCard 接收到的数据:', data);
-  console.log('current_remaining_kwh:', data?.current_remaining_kwh);
-  console.log('last_updated:', data?.last_updated);
-  
   return (
     <Card 
       className="airbnb-card modular-card modular-card--primary wood-texture fade-in-up apple-hover"
@@ -69,10 +64,6 @@ const OverviewCard = ({ data, loading }) => {
               marginBottom: 'var(--spacing-xs)'
             }}>
               {(data?.current_remaining_kwh || 0).toFixed(2)} kWh
-              {/* 调试信息 */}
-              <div style={{ fontSize: '12px', color: 'red' }}>
-                DEBUG: {JSON.stringify(data?.current_remaining_kwh)}
-              </div>
             </div>
             <div className="stat-module__label" style={{
               fontSize: 'var(--font-size-sm)',
