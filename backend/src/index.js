@@ -11,7 +11,20 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // 中间件
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:80',
+    'https://electricity-monitor.vercel.app',
+    'https://electricity-monitor-frontend.vercel.app',
+    'https://*.vercel.app',
+    'https://*.railway.app',
+    'https://*.zeabur.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // 路由
