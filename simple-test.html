@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>API 数据测试</h1>
+    <div id="result"></div>
+
+    <script>
+        async function testData() {
+            try {
+                const response = await fetch('http://localhost:3001/api/overview');
+                const data = await response.json();
+                
+                document.getElementById('result').innerHTML = `
+                    <div class="result success">
+                        <h3>✅ API 数据获取成功</h3>
+                        <p><strong>当前剩余电量:</strong> ${data.current_remaining_kwh || '未找到'} kWh</p>
+                        <p><strong>最新更新时间:</strong> ${data.last_updated || '未找到'}</p>
+                        <p><strong>今日用电:</strong> ${data.today_usage || '未找到'} kWh</p>
+                        <p><strong>本周用电:</strong> ${data.week_usage || '未找到'} kWh</p>
+                        <p><strong>本月用电:</strong> ${data.month_usage || '未找到'} kWh</p>
+                        <p><strong>预计费用:</strong> ¥${data.estimated_cost || '未找到'}</p>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <div class="result error">
+                        <h3>❌ API 调用失败</h3>
+                        <p>错误: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        testData();
+    </script>
+</body>
+</html>
