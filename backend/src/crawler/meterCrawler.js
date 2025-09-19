@@ -100,7 +100,7 @@ class MeterCrawler {
       }
 
       if (remainingKwh > 0) {
-        // 使用当前本地时间（北京时间）
+        // 直接使用当前本地时间（北京时间）
         const now = new Date();
         return {
           meter_id: meterId,
