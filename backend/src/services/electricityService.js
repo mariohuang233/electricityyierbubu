@@ -28,10 +28,11 @@ class ElectricityService {
       const monthStartStr = `${beijingNow.getUTCFullYear()}-${String(beijingNow.getUTCMonth() + 1).padStart(2, '0')}-01`;
       const monthStart = new Date(monthStartStr + 'T00:00:00.000Z');
 
-      const [todayUsage, weekUsage, monthUsage] = await Promise.all([
+      const [todayUsage, weekUsage, monthUsage, latestReading] = await Promise.all([
         this.calculateUsage(todayStart, now),
         this.calculateUsage(weekStart, now),
-        this.calculateUsage(monthStart, now)
+        this.calculateUsage(monthStart, now),
+        this.getLatestReading()
       ]);
 
       // 计算预计月费用：当月费用 / 当月已过天数占比
@@ -46,11 +47,27 @@ class ElectricityService {
         week_usage: weekUsage,
         month_usage: monthUsage,
         month_cost: monthUsage * this.electricityRate,
-        estimated_cost: estimatedMonthlyCost
+        estimated_cost: estimatedMonthlyCost,
+        current_remaining_kwh: latestReading ? latestReading.remaining_kwh : 0,
+        last_updated: latestReading ? latestReading.collected_at : null
       };
     } catch (error) {
       logger.error('获取总览数据失败:', error);
       throw error;
+    }
+  }
+
+  // 获取最新读数
+  async getLatestReading() {
+    try {
+      const latest = await ElectricityReading.findOne()
+        .sort({ collected_at: -1 })
+        .lean();
+      
+      return latest;
+    } catch (error) {
+      logger.error('获取最新读数失败:', error);
+      return null;
     }
   }
 

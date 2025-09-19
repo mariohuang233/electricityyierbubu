@@ -100,13 +100,13 @@ class MeterCrawler {
       }
 
       if (remainingKwh > 0) {
-        // 使用北京时间 (UTC+8)
-        const beijingTime = new Date(new Date().getTime() + 8 * 60 * 60 * 1000);
+        // 使用UTC时间，与数据库模型保持一致
+        const now = new Date();
         return {
           meter_id: meterId,
           meter_name: meterName,
           remaining_kwh: remainingKwh,
-          collected_at: beijingTime
+          collected_at: now
         };
       }
       

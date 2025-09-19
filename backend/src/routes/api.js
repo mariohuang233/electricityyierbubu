@@ -62,6 +62,63 @@ router.get('/trend/monthly', async (req, res) => {
 
 
 
+// 手动触发爬虫
+router.post('/crawl', async (req, res) => {
+  try {
+    const MeterCrawler = require('../crawler/meterCrawler');
+    const meterCrawler = new MeterCrawler();
+    
+    logger.info('手动触发爬虫任务');
+    const result = await meterCrawler.crawlMeterData();
+    
+    res.json({
+      success: true,
+      message: '爬虫任务执行成功',
+      data: result,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    logger.error('手动爬虫任务失败:', error);
+    res.status(500).json({
+      success: false,
+      error: '爬虫任务执行失败',
+      message: error.message
+    });
+  }
+});
+
+// 获取爬虫状态
+router.get('/crawler/status', async (req, res) => {
+  try {
+    const ElectricityReading = require('../models/ElectricityReading');
+    
+    // 获取最新数据
+    const latestReading = await ElectricityReading.findOne()
+      .sort({ timestamp: -1 })
+      .lean();
+    
+    // 获取最近24小时的数据数量
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const recentCount = await ElectricityReading.countDocuments({
+      timestamp: { $gte: twentyFourHoursAgo }
+    });
+    
+    res.json({
+      latestReading: latestReading ? {
+        timestamp: latestReading.timestamp,
+        used_kwh: latestReading.used_kwh,
+        remaining_kwh: latestReading.remaining_kwh
+      } : null,
+      recentCount,
+      lastUpdate: latestReading ? latestReading.timestamp : null,
+      status: latestReading ? 'active' : 'no_data'
+    });
+  } catch (error) {
+    logger.error('获取爬虫状态失败:', error);
+    res.status(500).json({ error: '获取爬虫状态失败' });
+  }
+});
+
 // 健康检查
 router.get('/health', (req, res) => {
   // 简单的健康检查，不依赖数据库连接
