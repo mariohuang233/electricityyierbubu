@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const cors = require('./cors-config');
 const cron = require('node-cron');
 const apiRoutes = require('./routes/api');
 const MeterCrawler = require('./crawler/meterCrawler');
@@ -11,20 +11,14 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // 中间件
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:80',
-    'https://electricity-monitor.vercel.app',
-    'https://electricity-monitor-frontend.vercel.app',
-    'https://*.vercel.app',
-    'https://*.railway.app',
-    'https://*.zeabur.app'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors);
+
+// 添加请求日志中间件
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.get('Origin') || 'No Origin'}`);
+  next();
+});
+
 app.use(express.json());
 
 // 路由
